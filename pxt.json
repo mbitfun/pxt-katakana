@@ -1,0 +1,17 @@
+{
+    "name": "pxt-katakana",
+    "version": "1.0.0",
+    "description": "カタカナ表示",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "syun.ts"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": true
+}
