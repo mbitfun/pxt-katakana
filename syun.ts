@@ -24,6 +24,40 @@ namespace katakana {
     ["タ", "チ", "ツ", "テ", "ト", "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ", "ヒ", "フ", "ヘ", "ホ", "マ"],
     ["ミ", "ム", "メ", "モ", "ヤ", "ユ", "ヨ", "ラ", "リ", "ル", "レ", "ロ", "ワ", "ン", "゛", "°"]
   ]
+  const na = [
+    [0,0,0,0,0],
+    [1,0,0,0,0],
+    [0,1,0,0,0],
+    [1,1,0,0,0],
+    [0,0,1,0,0],
+    [1,0,1,0,0],
+    [0,1,1,0,0],
+    [1,1,1,0,0],
+    [0,0,0,1,0],
+    [1,0,0,1,0],
+    [0,1,0,1,0],
+    [1,1,0,1,0],
+    [0,0,1,1,0],
+    [1,0,1,1,0],
+    [0,1,1,1,0],
+    [1,1,1,1,0],
+    [0,0,0,0,1],
+    [1,0,0,0,1],
+    [0,1,0,0,1],
+    [1,1,0,0,1],
+    [0,0,1,0,1],
+    [1,0,1,0,1],
+    [0,1,1,0,1],
+    [1,1,1,0,1],
+    [0,0,0,1,1],
+    [1,0,0,1,1],
+    [0,1,0,1,1],
+    [1,1,0,1,1],
+    [0,0,1,1,1],
+    [1,0,1,1,1],
+    [0,1,1,1,1],
+    [1,1,1,1,1]
+  ]
   const arr = [
     [
       [0,0,0,0,0],
@@ -218,59 +252,58 @@ namespace katakana {
   //% blockId=show_strings block="文字列を表示 %v"
   export function putStr(text: string, time: number = 500) :void{
     let strings: number[][] = []
-    for (let m = 0; m < marks.length; m++)
-      for (let c = 0; c < text.length; c++)
-        if(text.substr(c, 1) == marks[m][0])
+    for (let m = 0; m < marks.length; m++) {
+      for (let c = 0; c < text.length; c++) {
+        if(text.substr(c, 1) == marks[m][0]){
           text = text.substr(0,c)+marks[m][1]+text.substr(c+1,text.length-c-1)
-
-    for (let c = 0; c < text.length; c++) {
-      for (let x = 0; x < 10; x++) {
-        for (let y = 0; y < 16; y++) {
-          if (hs[x][y] == text.substr(c, 1) || em[x][y] == text.substr(c, 1)) {
-            for (let z = 0; z < arr[x][y].length; z++) {
-              let decimal = arr[x][y][z]
-              let binary = [0,0,0,0,0]
-              for(let i= 0; decimal>0;i++){
-                binary[i] = decimal % 2
-                decimal = decimal % 2 ? (decimal - 1) / 2 : decimal / 2
-              }
-              strings.push(binary)
-            }
-            if((x==9 && y==14) || (x==9 && y==15)){
-              strings.splice(strings.length-6,1)
-              strings.splice(strings.length-(3-(y%2)),(3-(y%2)))
-            }
-            strings.push([0, 0, 0, 0, 0])
-          }
         }
       }
     }
-    if(strings.length==6){
-      for (let x = 0; x < 5; x++)
-        for (let y = 0; y < 5; y++)
-          if (strings[x][y] == 1) led.plot(x, y)
-    }else{
-      for (let z = 0; z < strings.length; z++) {
-        for (let x = z; x < z + 5; x++) {
-          for (let y = 0; y < 5; y++) {
-            if (x >= strings.length) {
-              if (strings[x - strings.length][y] == 1) led.plot(x - z, y)
-            } else {
-              if (strings[x][y] == 1) led.plot(x - z, y)
+    for (let c = 0; c < text.length; c++) {
+        for (let x = 0; x < 10; x++) {
+            for (let y = 0; y < 16; y++) {
+                if (hs[x][y] == text.substr(c, 1) || em[x][y] == text.substr(c, 1)) {
+                    for (let z = 0; z < arr[x][y].length; z++) {
+                        strings.push(na[arr[x][y][z]])
+                    }
+                    if((x==9 && y==14) || (x==9 && y==15)){
+                      strings.splice(strings.length-6,1)
+                      strings.splice(strings.length-(3-(y%2)),(3-(y%2)))
+                    }
+                    strings.push([0, 0, 0, 0, 0])
+                }
             }
-          }
+        }
+    }
+
+    for (let z = 0; z < strings.length; z++) {
+        for (let x = z; x < z + 5; x++) {
+            for (let y = 0; y < 5; y++) {
+                if (x >= strings.length) {
+                    if (strings[x - strings.length][y] == 1) {
+                        led.plot(x - z, y)
+                    }
+                } else {
+                    if (strings[x][y] == 1) {
+                        led.plot(x - z, y)
+                    }
+                }
+            }
         }
         basic.pause(time)
         for (let x = z; x < z + 5; x++) {
-          for (let y = 0; y < 5; y++) {
-            if (x >= strings.length) {
-              if (strings[x - strings.length][y] == 1) led.unplot(x - z, y)
-            } else {
-              if (strings[x][y] == 1) led.unplot(x - z, y)
+            for (let y = 0; y < 5; y++) {
+                if (x >= strings.length) {
+                    if (strings[x - strings.length][y] == 1) {
+                        led.unplot(x - z, y)
+                    }
+                } else {
+                    if (strings[x][y] == 1) {
+                        led.unplot(x - z, y)
+                    }
+                }
             }
-          }
         }
-      }
     }
   }
 }
