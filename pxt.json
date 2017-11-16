@@ -1,6 +1,6 @@
 {
     "name": "pxt-katakana",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "カタカナ表示",
     "license": "MIT",
     "dependencies": {
