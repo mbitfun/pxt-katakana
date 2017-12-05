@@ -8,7 +8,7 @@
     },
     "files": [
         "README.md",
-        "syun.ts"
+        "main.ts"
     ],
     "testFiles": [
         "test.ts"
