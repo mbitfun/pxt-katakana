@@ -178,7 +178,7 @@ namespace katakana {
 
     //% blockId=show_strings block="文字列を表示 %v"
     export function putStr(text: string, time: number = 500): void {
-        let strings: number[] = []
+        let strings: number[] = [0,0,0,0]
         for (let c = 0; c < text.length; c++) {
             if (text.substr(c, 1) == "　") text = text.substr(0, c) + " " + text.substr(c + 1, text.length - c - 1)
             for (let m = 0; m < marks.length; m++)
