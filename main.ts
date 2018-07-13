@@ -1,5 +1,6 @@
 //% weight=70 icon="\u30A2" color=#EC7505 block="カタカナ"
 namespace katakana {
+	let scroll :number
     const hs1 = "!" + '"' + "#$%&'()*+,-./:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`"
     const hs2 = " 0123456789｡｢｣､･ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝﾞﾟ"
     const arr = [
@@ -199,12 +200,19 @@ namespace katakana {
                         tmp % 2 == 1 && led.plot(y - a, b)
                         tmp = (tmp - (tmp % 2)) / 2
                     }
-                basic.pause(time)
+                basic.pause(scroll||time)
                 for (let e = 0; e < 5; e++)
                     for (let f = 0; f < 5; f++)
                         led.unplot(e, f)
             }
         }
-
+	   /**
+           *SSet scroll time.
+           * @param time number of scroll time, eg: 500
+           */
+      //% blockId=set_scrollTime block="スクロール時間を設定 %t"
+      export function setScrollTime(time: number = 500): void {
+          scroll = time
+      }
     }
 }
